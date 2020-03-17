@@ -8,7 +8,7 @@ public class playerController : MonoBehaviour
     private Rigidbody2D rb;
     private Collider2D coll;
     private Animator anim;
-    public float jumpforce = 20, speed = 10, pushforce = 20;
+    public float jumpforce = 20, speed = 10, hurtforce = 10;
 
     public Transform groundCheck;
     public LayerMask ground;//碰撞体过滤 
@@ -24,6 +24,9 @@ public class playerController : MonoBehaviour
     //UI
     public Text cherryNumText;
     public Text gemNumberText;
+
+    //state
+    private bool isHurt;//default:false
 
 
     // Start is called before the first frame update
@@ -50,7 +53,11 @@ public class playerController : MonoBehaviour
     private void FixedUpdate()
     {
         isGround = Physics2D.OverlapCircle(groundCheck.position, 0.1f, ground);//判断是否在地面
-        GroundMovement();
+        if (!isHurt)
+        {
+            GroundMovement();
+        }
+       // GroundMovement();
         SwitchAnim();
         Jump();
     }
@@ -104,6 +111,17 @@ public class playerController : MonoBehaviour
         //判断下落还是上跳
         anim.SetFloat("jumping", rb.velocity.y);
 
+
+        if (isHurt)
+        {
+            anim.SetBool("isHurt", true);
+            if (Mathf.Abs(rb.velocity.x) < 0.1)
+            {
+                isHurt = false;
+                anim.SetBool("isHurt", false);
+            }
+        }
+
         if (isGround)
         {
             anim.SetBool("idle", true);
@@ -111,6 +129,7 @@ public class playerController : MonoBehaviour
         else
             anim.SetBool("idle", false);
 
+        
 
     }
 
@@ -139,7 +158,7 @@ public class playerController : MonoBehaviour
         if (collision.gameObject.tag == "frog")
         {
             //下落时碰撞
-            if (rb.velocity.y<0)
+            if (rb.velocity.y<0&&Mathf.Abs(rb.velocity.x)<2)
             {
                 //Destroy(collision.collider);
 
@@ -149,7 +168,15 @@ public class playerController : MonoBehaviour
             //向右时碰撞
             if (rb.velocity.x > 0)
             {
-                rb.velocity = new Vector2(-10, rb.velocity.y);
+                rb.velocity = new Vector2(-hurtforce, rb.velocity.y);
+                isHurt = true;
+            }
+
+            //向左时碰撞
+            if (rb.velocity.x < 0)
+            {
+                rb.velocity = new Vector2(-hurtforce, rb.velocity.y);
+                isHurt = true;
             }
         }
     }
