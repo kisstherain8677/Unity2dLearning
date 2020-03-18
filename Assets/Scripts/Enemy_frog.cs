@@ -86,4 +86,15 @@ public class Enemy_frog : MonoBehaviour
         }
 
     }
+
+    void DestroySelf()
+    {
+        Destroy(gameObject);
+    }
+
+    public void Jumped()
+    {
+        anim.SetTrigger("death");
+        
+    }
 }

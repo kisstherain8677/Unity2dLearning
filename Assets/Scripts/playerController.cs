@@ -155,15 +155,24 @@ public class playerController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "frog")
+        if (collision.gameObject.tag == "enemy")
         {
+            Enemy_frog frog = collision.gameObject.GetComponent<Enemy_frog>();
+            Enemy_eagle eagle= collision.gameObject.GetComponent<Enemy_eagle>();
             //下落时碰撞
             if (rb.velocity.y<0&&Mathf.Abs(rb.velocity.x)<2)
             {
-                //Destroy(collision.collider);
-
-                Destroy(collision.gameObject);
-                rb.velocity = new Vector2(rb.velocity.x * Time.deltaTime, jumpforce);
+                //被跳上去之后执行
+                if (frog != null)
+                {
+                    frog.Jumped();
+                }
+                if (eagle != null)
+                {
+                    eagle.Jumped();
+                }
+                
+                rb.velocity = new Vector2(rb.velocity.x * Time.deltaTime, jumpforce/2);
             }
             //向右时碰撞
             if (rb.velocity.x > 0)
