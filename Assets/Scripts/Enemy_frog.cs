@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy_frog : MonoBehaviour
+public class Enemy_frog : Enemy
 {
     private Rigidbody2D rb;
     public Transform rightPoint, leftPoint;
@@ -10,12 +10,12 @@ public class Enemy_frog : MonoBehaviour
     private float leftx, rightx;
     public float speed,jumpForce;
 
-    private Animator anim;
+    //private Animator anim;
     private Collider2D coll;
     public LayerMask Ground;
 
     // Start is called before the first frame update
-    void Start()
+    protected override void  Start()
     {
         rb = GetComponent<Rigidbody2D>();
         leftx = leftPoint.position.x;
@@ -24,7 +24,7 @@ public class Enemy_frog : MonoBehaviour
         Destroy(rightPoint.gameObject);
         Destroy(leftPoint.gameObject);
 
-        anim = GetComponent<Animator>();
+        //anim = GetComponent<Animator>();
         coll = GetComponent<Collider2D>();
         
     }
@@ -32,7 +32,7 @@ public class Enemy_frog : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Move();动画触发
+        //Move();
         SwitchAnim();
     }
 
@@ -68,9 +68,10 @@ public class Enemy_frog : MonoBehaviour
         }
     }
 
-
+    
     void SwitchAnim()
     {
+        base.Start();//这里为了得到Animator组件一定要写
         if (anim.GetBool("jumping"))
         {
             if (rb.velocity.y < 0.1)
@@ -86,15 +87,6 @@ public class Enemy_frog : MonoBehaviour
         }
 
     }
+    
 
-    void DestroySelf()
-    {
-        Destroy(gameObject);
-    }
-
-    public void Jumped()
-    {
-        anim.SetTrigger("death");
-        
-    }
 }

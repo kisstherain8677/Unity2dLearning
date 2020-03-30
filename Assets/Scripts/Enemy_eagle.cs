@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy_eagle : MonoBehaviour
+public class Enemy_eagle : Enemy
 {
 
     private bool upward = true;//判断是否往上飞
@@ -11,13 +11,14 @@ public class Enemy_eagle : MonoBehaviour
     public Transform upPoint, downPoint;
     public float upSpeed = 5;
     private float upy, downy;
-    private Animator anim;
+    //private Animator anim;
 
     // Start is called before the first frame update
-    void Start()
+    protected override void Start()
     {
+        base.Start();
         rb = GetComponent<Rigidbody2D>();
-        anim = GetComponent<Animator>();
+        //anim = GetComponent<Animator>();
         upy = upPoint.position.y;
         downy = downPoint.position.y;
         float freezeX = transform.position.x;
@@ -57,15 +58,6 @@ public class Enemy_eagle : MonoBehaviour
         }
     }
 
-    void DestroySelf()
-    {
-        Destroy(gameObject);
-    }
-
-    public void Jumped()
-    {
-        anim.SetTrigger("death");
-
-    }
+   
 
 }

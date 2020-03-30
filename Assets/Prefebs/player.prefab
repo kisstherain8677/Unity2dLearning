@@ -51,6 +51,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -72,8 +73,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 315176721
-  m_SortingLayer: 2
+  m_SortingLayerID: 1158686147
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 72de0c64f2c6a498096698322c976a67, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -116,7 +117,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 3760070311308007721}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 95e74b449368dcf4899836bafe38a854, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -147,13 +148,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   jumpforce: 20
   speed: 10
+  hurtforce: 5
   groundCheck: {fileID: 3760070312301854746}
   ground:
     serializedVersion: 2
     m_Bits: 256
   isGround: 0
   isJump: 1
-  cherryNum: 0
+  cherryNumText: {fileID: 0}
+  gemNumberText: {fileID: 0}
 --- !u!95 &3760070311308007727
 Animator:
   serializedVersion: 3
@@ -182,7 +185,7 @@ CircleCollider2D:
   m_GameObject: {fileID: 3760070311308007721}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 95e74b449368dcf4899836bafe38a854, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -204,7 +207,7 @@ GameObject:
   m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &3760070312301854746
 Transform:
   m_ObjectHideFlags: 0

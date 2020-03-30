@@ -10,6 +10,9 @@ public class playerController : MonoBehaviour
     private Animator anim;
     public float jumpforce = 20, speed = 10, hurtforce = 10;
 
+    public AudioSource jumpAudio;
+    public AudioSource coinAudio;
+
     public Transform groundCheck;
     public LayerMask ground;//碰撞体过滤 
 
@@ -86,6 +89,7 @@ public class playerController : MonoBehaviour
 
         if(jumpPressed && isGround)
         {
+            jumpAudio.Play();
             isJump = true;
             rb.velocity = new Vector2(rb.velocity.x*Time.deltaTime, jumpforce);
             jumpCount--;
@@ -95,6 +99,7 @@ public class playerController : MonoBehaviour
 
         else if (jumpPressed && jumpCount > 0 && !isGround)
         {
+            jumpAudio.Play();
             rb.velocity = new Vector2(rb.velocity.x * Time.deltaTime, jumpforce);
             jumpCount--;
             jumpPressed = false;
@@ -137,6 +142,7 @@ public class playerController : MonoBehaviour
     {
         if (collision.tag == "cherry")
         {
+            coinAudio.Play();
             Destroy(collision.gameObject);
             cherryNum++;
             cherryNumText.text = cherryNum.ToString();
@@ -145,6 +151,7 @@ public class playerController : MonoBehaviour
 
         if (collision.tag == "gem")
         {
+            coinAudio.Play();
             Destroy(collision.gameObject);
             gemNum++;
             gemNumberText.text=gemNum.ToString();
@@ -157,20 +164,11 @@ public class playerController : MonoBehaviour
     {
         if (collision.gameObject.tag == "enemy")
         {
-            Enemy_frog frog = collision.gameObject.GetComponent<Enemy_frog>();
-            Enemy_eagle eagle= collision.gameObject.GetComponent<Enemy_eagle>();
+            Enemy enemy = collision.gameObject.GetComponent<Enemy>();
             //下落时碰撞
             if (rb.velocity.y<0&&Mathf.Abs(rb.velocity.x)<2)
             {
-                //被跳上去之后执行
-                if (frog != null)
-                {
-                    frog.Jumped();
-                }
-                if (eagle != null)
-                {
-                    eagle.Jumped();
-                }
+                enemy.Jumped();
                 
                 rb.velocity = new Vector2(rb.velocity.x * Time.deltaTime, jumpforce/2);
             }
