@@ -28,6 +28,7 @@ public class playerController : MonoBehaviour
     public Text cherryNumText;
     public Text gemNumberText;
 
+
     //state
     private bool isHurt;//default:false
 
@@ -186,6 +187,8 @@ public class playerController : MonoBehaviour
                 isHurt = true;
             }
         }
+
+       
     }
 
 
