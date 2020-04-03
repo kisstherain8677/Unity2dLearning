@@ -6,7 +6,8 @@ using UnityEngine.UI;
 public class playerController : MonoBehaviour
 {
     private Rigidbody2D rb;
-    private Collider2D coll;
+    //private Collider2D coll;
+    private BoxCollider2D bcoll;
     private Animator anim;
     public float jumpforce = 20, speed = 10, hurtforce = 10;
 
@@ -20,6 +21,7 @@ public class playerController : MonoBehaviour
 
     bool jumpPressed;
     int jumpCount;
+    bool crouchPressed;
 
     private int cherryNum;
     private int gemNum;
@@ -37,8 +39,10 @@ public class playerController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        coll = GetComponent<Collider2D>();
+        //coll = GetComponent<Collider2D>();
+        bcoll = GetComponent<BoxCollider2D>();
         anim = GetComponent<Animator>();
+
 
         cherryNum = 0;
     }
@@ -46,29 +50,45 @@ public class playerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        
         if (Input.GetButtonDown("Jump") && jumpCount > 0)
         {
             jumpPressed = true;
         }
-        
+        if (Input.GetButtonDown("Crouch"))
+        {
+            crouchPressed = true;
+        }
+        if (Input.GetButtonUp("Crouch"))
+        {
+            crouchPressed = false;
+        }
+
+
     }
 
     //每秒固定执行的操作，与设备无关
     private void FixedUpdate()
     {
+  
         isGround = Physics2D.OverlapCircle(groundCheck.position, 0.1f, ground);//判断是否在地面
+        
         if (!isHurt)
         {
             GroundMovement();
         }
-       // GroundMovement();
+        // GroundMovement();
+        
         SwitchAnim();
         Jump();
+        Crouch();
     }
 
     //根据输入控制水平方向的移动和以及方向变化
     void GroundMovement()
     {
+        
         float horizontalMove = Input.GetAxisRaw("Horizontal");//只有0 -1 1 三个数字
         rb.velocity = new Vector2(horizontalMove * speed, rb.velocity.y);
 
@@ -76,7 +96,25 @@ public class playerController : MonoBehaviour
         {
             transform.localScale = new Vector3(horizontalMove, 1, 1);//控制翻转
         }
+
        
+       
+    }
+
+    void Crouch()
+    {
+        if (crouchPressed)
+        {
+            anim.SetBool("crouching", true);
+            bcoll.enabled = false;
+        }
+        else 
+        {
+            anim.SetBool("crouching", false);
+            bcoll.enabled = true;
+        }
+
+        
     }
 
     void Jump()
@@ -92,7 +130,7 @@ public class playerController : MonoBehaviour
         {
             jumpAudio.Play();
             isJump = true;
-            rb.velocity = new Vector2(rb.velocity.x*Time.deltaTime, jumpforce);
+            rb.velocity = new Vector2(rb.velocity.x*Time.fixedDeltaTime, jumpforce);
             jumpCount--;
             jumpPressed = false;//每0.02秒检测按键是否松开
             
@@ -101,7 +139,7 @@ public class playerController : MonoBehaviour
         else if (jumpPressed && jumpCount > 0 && !isGround)
         {
             jumpAudio.Play();
-            rb.velocity = new Vector2(rb.velocity.x * Time.deltaTime, jumpforce);
+            rb.velocity = new Vector2(rb.velocity.x * Time.fixedDeltaTime, jumpforce);
             jumpCount--;
             jumpPressed = false;
             

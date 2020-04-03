@@ -62,10 +62,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\EnterDialog.cs" />
     <Compile Include="Assets\Scripts\Enemy.cs" />
     <Compile Include="Assets\Scripts\Enemy_eagle.cs" />
     <Compile Include="Assets\Scripts\Enemy_frog.cs" />
+    <Compile Include="Assets\Scripts\EnterDialog.cs" />
     <Compile Include="Assets\Scripts\playerController.cs" />
     <Compile Include="Assets\Zero Rare\Retro Sound Effects\Demo\Demo.cs" />
     <Reference Include="Unity.Timeline.Editor">
