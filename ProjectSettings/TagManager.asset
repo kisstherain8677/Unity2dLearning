@@ -11,6 +11,7 @@ TagManager:
   - enemy
   - door
   - player
+  - deadLine
   layers:
   - Default
   - TransparentFX

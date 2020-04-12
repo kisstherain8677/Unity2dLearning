@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class playerController : MonoBehaviour
 {
@@ -56,11 +57,11 @@ public class playerController : MonoBehaviour
         {
             jumpPressed = true;
         }
-        if (Input.GetButtonDown("Crouch"))
+        if (Input.GetButton("Crouch"))
         {
             crouchPressed = true;
         }
-        if (Input.GetButtonUp("Crouch"))
+        if (!Input.GetButton("Crouch"))
         {
             crouchPressed = false;
         }
@@ -196,6 +197,14 @@ public class playerController : MonoBehaviour
             gemNumberText.text=gemNum.ToString();
 
         }
+
+        if (collision.tag == "deadLine")
+        {
+            GetComponent<AudioSource>().enabled = false;//enabled启用或禁用某个component
+            Invoke("Restart", 2f);
+        }
+
+        
     }
 
 
@@ -229,6 +238,12 @@ public class playerController : MonoBehaviour
        
     }
 
-
+    void Restart()
+    {
+       
+        
+       SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        
+    }
 
 }

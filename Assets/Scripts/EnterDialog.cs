@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class EnterDialog : MonoBehaviour
 {
     public GameObject enterDialog;
@@ -17,7 +18,11 @@ public class EnterDialog : MonoBehaviour
         if (collision.tag == "player")
         {
             enterDialog.SetActive(true);
+
+            
         }
+
+        
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -27,4 +32,7 @@ public class EnterDialog : MonoBehaviour
             enterDialog.SetActive(false);
         }
     }
+
+
+    
 }
